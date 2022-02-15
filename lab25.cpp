@@ -12,6 +12,12 @@ class ComplexNumber{
 		ComplexNumber operator*(const ComplexNumber &);
 		ComplexNumber operator/(const ComplexNumber &);
 		bool operator==(const ComplexNumber &);
+		friend ComplexNumber operator+(double, const ComplexNumber &);
+		friend ComplexNumber operator-(double, const ComplexNumber &);
+		friend ComplexNumber operator*(double, const ComplexNumber &);
+		friend ComplexNumber operator/(double, const ComplexNumber &);
+		friend bool operator==(double, const ComplexNumber &);
+		friend ostream& operator<<(ostream &, const ComplexNumber &);
 		double abs();
 		double angle();
 };
@@ -28,7 +34,62 @@ ComplexNumber ComplexNumber::operator-(const ComplexNumber &c){
 	return ComplexNumber(real-c.real,imag-c.imag);
 }
 
-//Write your code here
+ComplexNumber ComplexNumber::operator*(const ComplexNumber &c){
+	return ComplexNumber(real*c.real-imag*c.imag, real*c.imag+imag*c.real);
+}
+
+ComplexNumber ComplexNumber::operator/(const ComplexNumber &c){
+	double r = ((real*c.real)+(imag*c.imag)) / (pow(c.real,2) + pow(c.imag,2));
+	double i = ((c.real*imag)-(real*c.imag)) / (pow(c.real,2) + pow(c.imag,2));
+	return ComplexNumber(r, i);
+}
+
+bool ComplexNumber::operator==(const ComplexNumber &c){
+	if(real==c.real && imag==c.imag) return true;
+	else return false;
+}
+
+ComplexNumber operator+(double n, const ComplexNumber &c){
+	return ComplexNumber(n+c.real,c.imag);
+}
+
+ComplexNumber operator-(double n, const ComplexNumber &c){
+	return ComplexNumber(n-c.real,c.imag);
+}
+
+ComplexNumber operator*(double n, const ComplexNumber &c){
+	return ComplexNumber(n*c.real-0*c.imag, n*c.imag+0*c.real);
+}
+
+ComplexNumber operator/(double n, const ComplexNumber &c){
+	double r = ((n*c.real)+(0*c.imag)) / (pow(c.real,2) + pow(c.imag,2));
+	double i = ((c.real*0)-(n*c.imag)) / (pow(c.real,2) + pow(c.imag,2));
+	return ComplexNumber(r, i);
+}
+
+bool operator==(double n, const ComplexNumber &c){
+	if(n == c.real && c.imag == 0) return true;
+	else return false;
+}
+
+ostream& operator<<(ostream &os, const ComplexNumber &c){
+	if(c.imag == 0){
+		return os << c.real;
+	}else if(c.real == 0){
+		return os << c.imag << "i";
+	}else{
+		if(c.imag < 0) return os << c.real << c.imag << "i";
+		else return os << c.real << "+" << c.imag << "i";
+	}
+}
+
+double ComplexNumber::abs(){
+	return sqrt(pow(real,2) + pow(imag,2));
+}
+
+double ComplexNumber::angle(){
+	return atan2 (imag,real) * 180 / M_PI;
+}
 
 int main(){
 	ComplexNumber a(1.5,2),b(3.2,-2.5),c(-1,1.2);	
