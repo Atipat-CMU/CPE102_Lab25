@@ -50,11 +50,11 @@ bool ComplexNumber::operator==(const ComplexNumber &c){
 }
 
 ComplexNumber operator+(double n, const ComplexNumber &c){
-	return ComplexNumber(n+c.real,c.imag);
+	return ComplexNumber(n+c.real,0+c.imag);
 }
 
 ComplexNumber operator-(double n, const ComplexNumber &c){
-	return ComplexNumber(n-c.real,c.imag);
+	return ComplexNumber(n-c.real,0-c.imag);
 }
 
 ComplexNumber operator*(double n, const ComplexNumber &c){
